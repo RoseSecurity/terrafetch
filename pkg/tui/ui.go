@@ -10,9 +10,9 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-// NOTE: ASCII art logo is defined in logo.go as a public var `Logo`.
+// Logo constant comes from logo.go.
 
-// uiModel implements Bubble-Tea's Model interface.
+// uiModel implements Bubble‑Tea's Model interface.
 type uiModel struct {
 	rootDir   string
 	analytics []internal.Analytics
@@ -20,52 +20,66 @@ type uiModel struct {
 
 // ─── Styles ────────────────────────────────────────────────────────────────
 var (
+	borderColor = lipgloss.Color("99") // purple
+	container   = lipgloss.NewStyle().Border(lipgloss.RoundedBorder()).BorderForeground(borderColor)
+
 	headerStyle = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("63")) // magenta header
-	keyStyle    = lipgloss.NewStyle().Foreground(lipgloss.Color("111"))           // cyan keys
-	valStyle    = lipgloss.NewStyle().Foreground(lipgloss.Color("250"))           // light-gray values
-	logoStyle   = lipgloss.NewStyle().Foreground(lipgloss.Color("99"))            // purple logo
+	keyStyle    = lipgloss.NewStyle().Foreground(lipgloss.Color("15"))            // white
+	valStyle    = lipgloss.NewStyle().Foreground(lipgloss.Color("250"))           // light‑gray values
+	logoStyle   = lipgloss.NewStyle().Foreground(borderColor)                     // purple logo
 )
 
-// NewUIModel returns an initialised model ready to render once and quit.
+// NewUIModel returns a model that renders once and exits.
 func NewUIModel(rootDir string, data []internal.Analytics) tea.Model {
 	return uiModel{rootDir: rootDir, analytics: data}
 }
 
-// Init immediately issues a Quit command so Bubble-Tea renders one frame then exits.
+// Init immediately quits after first frame.
 func (m uiModel) Init() tea.Cmd { return tea.Quit }
 
-// Update is a no-op because we're quitting in Init.
+// Update is a no‑op (renders once).
 func (m uiModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) { return m, nil }
 
-// View assembles the Neofetch-style output.
+// View assembles the bordered layout with analytics anchored bottom‑right.
 func (m uiModel) View() string {
-	left := logoStyle.Render(logo)               // ASCII logo column (from logo.go)
-	right := renderStats(m.rootDir, m.analytics) // Stats column
+	logoBlock := buildPaddedLogo()                    // left column
+	statsBlock := renderStats(m.rootDir, m.analytics) // right column
 
-	return lipgloss.JoinHorizontal(lipgloss.Top, left, right)
+	// Align stats block to the bottom of the logo column and close border with trailing newline.
+	body := lipgloss.JoinHorizontal(lipgloss.Top, logoBlock, statsBlock)
+	return container.Render(body) + "\n"
 }
 
-// renderStats lays out key/value stats to mimic Neofetch alignment.
+// buildPaddedLogo pads each line of logo to equal width so right column aligns neatly.
+func buildPaddedLogo() string {
+	lines := strings.Split(strings.TrimSuffix(logo, "\n"), "\n")
+	max := 0
+	for _, l := range lines {
+		if w := lipgloss.Width(l); w > max {
+			max = w
+		}
+	}
+	for i, l := range lines {
+		pad := strings.Repeat(" ", max-lipgloss.Width(l))
+		lines[i] = l + pad
+	}
+	return logoStyle.Render(strings.Join(lines, "\n"))
+}
+
+// renderStats lays out key/value stats; later aligned to bottom‑right by View().
 func renderStats(rootDir string, data []internal.Analytics) string {
 	if len(data) == 0 {
 		return "No analytics found."
 	}
 	a := data[0]
 
-	dirName := filepath.Base(rootDir)
+	dir := filepath.Base(rootDir)
 
-	// Helper to pad keys so the colons align.
-	padKey := func(k string) string {
-		return keyStyle.Render(fmt.Sprintf("%-11s:", k)) // 11 left-padded so the longest key fits
-	}
+	padKey := func(k string) string { return keyStyle.Render(fmt.Sprintf("%-10s:", k)) }
 
-	// Compose lines.
-	header := headerStyle.Render(dirName)
-	underline := headerStyle.Render(strings.Repeat("-", len(dirName)))
-
-	stats := []string{
-		header,
-		underline,
+	lines := []string{
+		headerStyle.Render(dir),
+		headerStyle.Render(strings.Repeat("-", len(dir))),
 		fmt.Sprintf("%s %s", padKey("Variables"), valStyle.Render(fmt.Sprint(a.VariableCount))),
 		fmt.Sprintf("%s %s", padKey("Resources"), valStyle.Render(fmt.Sprint(a.ResourceCount))),
 		fmt.Sprintf("%s %s", padKey("Outputs"), valStyle.Render(fmt.Sprint(a.OutputCount))),
@@ -73,6 +87,5 @@ func renderStats(rootDir string, data []internal.Analytics) string {
 		fmt.Sprintf("%s %s", padKey("Providers"), valStyle.Render(fmt.Sprint(a.ProviderCount))),
 	}
 
-	// Pad left so the stats sit a bit away from the logo.
-	return lipgloss.NewStyle().PaddingLeft(2).Render(lipgloss.JoinVertical(lipgloss.Left, stats...))
+	return lipgloss.NewStyle().PaddingLeft(2).Render(lipgloss.JoinVertical(lipgloss.Left, lines...))
 }
