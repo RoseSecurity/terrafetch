@@ -11,7 +11,7 @@
 ## Demo
 
 <p align="center">
-<img width=100% height=100% src="./docs/img/terrafetch-demo.gif">
+<img width=50% height=70% src="./docs/img/terrafetch-demo.gif">
 </p>
 
 ## Installation
