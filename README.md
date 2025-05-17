@@ -13,7 +13,7 @@ Terrafetch is the Neofetch of Terraform—because your infrastructure deserves a
 ## Demo
 
 <p align="center">
-<img width=90% height=90% src="./docs/img/terrafetch-demo.gif">
+<img width=100% height=100% src="./docs/img/terrafetch-demo.gif">
 </p>
 
 ## Installation
