@@ -1,10 +1,14 @@
 <p align="center">
-<img width=60% height=70% src="./docs/img/terrafetch-logo.png">
+<img width=100% height=90% src="./docs/img/terrafetch-logo.png">
 </p>
 
 <p align="center">
   <em>Let your Terraform code flex for you.</em>
 </p>
+
+## Introduction
+
+Terrafetch is the Neofetch of Terraform—because your infrastructure deserves a little flair. It scans your Terraform repository and displays key statistics like the number of variables, resources, modules, outputs, and more—all in a stylish, terminal-friendly format. Perfect for CLI screenshots, repo intros, or just flexing your infra hygiene.
 
 ## Demo
 
