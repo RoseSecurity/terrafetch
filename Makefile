@@ -13,7 +13,7 @@ fmt: ## Format Go files
 	gofumpt -w .
 
 build: ## Build Terrafetch
-	env $(if $(GOOS),GOOS=$(GOOS)) $(if $(GOARCH),GOARCH=$(GOARCH)) $(GO) build -o build/$(BINARY_NAME) -ldflags "-X 'github.com/RoseSecurity/terrafetch/cmd.Version=${VERSION}'" main.go
+	env $(if $(GOOS),GOOS=$(GOOS)) $(if $(GOARCH),GOARCH=$(GOARCH)) $(GO) build -o build/$(BINARY_NAME) main.go
 
 deps: ## Download dependencies
 	go mod download
