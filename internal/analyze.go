@@ -23,6 +23,10 @@ func AnalyzeRepository(rootDir string) ([]Analytics, error) {
 		return nil, ErrFailedToFindDir
 	}
 
+	if len(dirs) == 0 {
+		return nil, ErrNoTerraformFiles
+	}
+
 	var totalVars, totalResources, totalOutputs, totalDataSources, totalModules, totalProviders int
 
 	for dir := range dirs {
