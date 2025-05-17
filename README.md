@@ -1,7 +1,7 @@
 # terrafetch
 
 <p align="center">
-<img width=90% height=80% src="./docs/img/terrafetch-logo.png">
+<img width=60% height=70% src="./docs/img/terrafetch-logo.png">
 </p>
 
 <p align="center">
@@ -11,7 +11,7 @@
 ## Demo
 
 <p align="center">
-<img width=50% height=70% src="./docs/img/terrafetch-demo.gif">
+<img width=90% height=90% src="./docs/img/terrafetch-demo.gif">
 </p>
 
 ## Installation
