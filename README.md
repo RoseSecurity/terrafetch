@@ -1,5 +1,3 @@
-# terrafetch
-
 <p align="center">
 <img width=60% height=70% src="./docs/img/terrafetch-logo.png">
 </p>
@@ -49,6 +47,9 @@ make build
 ```
 
 ## Usage
+
+> [!IMPORTANT]
+> Do you love the tool but it's missing some information you'd like to see? Head on over to [this discussion](https://github.com/RoseSecurity/terrafetch/discussions/2) and drop a comment or open a new issue!
 
 ```sh
 ❯ terrafetch
