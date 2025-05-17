@@ -13,6 +13,8 @@ type Analytics struct {
 	DataSourceCount int
 	ProviderCount   int
 	ModuleCount     int
+	FileCount       int
+	DocCount        int
 }
 
 func AnalyzeRepository(rootDir string) ([]Analytics, error) {
@@ -30,7 +32,7 @@ func AnalyzeRepository(rootDir string) ([]Analytics, error) {
 
 		repo, diags := tfconfig.LoadModule(dir)
 		if diags.HasErrors() {
-			log.Warn("could not load %d", dir)
+			log.Warn("could not load %v", dir)
 		}
 
 		totalVars += len(repo.Variables)
@@ -41,6 +43,11 @@ func AnalyzeRepository(rootDir string) ([]Analytics, error) {
 		totalProviders += len(repo.RequiredProviders)
 	}
 
+	totalTfFiles, totalDocFiles, err := utils.FindFiles(rootDir)
+	if err != nil {
+		log.Error("could not count terraform files %v", err)
+	}
+
 	return []Analytics{
 		{
 			VariableCount:   totalVars,
@@ -49,6 +56,8 @@ func AnalyzeRepository(rootDir string) ([]Analytics, error) {
 			DataSourceCount: totalDataSources,
 			ProviderCount:   totalProviders,
 			ModuleCount:     totalModules,
+			FileCount:       totalTfFiles,
+			DocCount:        totalDocFiles,
 		},
 	}, nil
 }

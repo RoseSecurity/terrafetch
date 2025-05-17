@@ -3,7 +3,6 @@ package cmd
 import (
 	"github.com/RoseSecurity/terrafetch/internal"
 	"github.com/RoseSecurity/terrafetch/pkg/tui"
-	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 )
@@ -30,11 +29,7 @@ func fetchInfo(cmd *cobra.Command, args []string) {
 		log.Error(internal.ErrFailedToFetch, err)
 	}
 
-	p := tea.NewProgram(tui.NewUIModel(directory, analytics))
-	_, err = p.Run()
-	if err != nil {
-		log.Error("failed to start TUI", err)
-	}
+	tui.DisplayInfo(directory, analytics[0])
 }
 
 func Execute() {
