@@ -28,7 +28,7 @@ func RenderInfo(dir string, a internal.Analytics) string {
 	lines := []string{
 		headerStyle.Render(tfDir),
 		headerStyle.Render(strings.Repeat("-", len(tfDir))),
-		fmt.Sprintf("%s %s", padKey("Terraform Files"), valStyle.Render(fmt.Sprint(a.FileCount))),
+		fmt.Sprintf("%s %s", padKey("Files"), valStyle.Render(fmt.Sprint(a.FileCount))),
 		fmt.Sprintf("%s %s", padKey("Docs"), valStyle.Render(fmt.Sprint(a.DocCount))),
 		fmt.Sprintf("%s %s", padKey("Resources"), valStyle.Render(fmt.Sprint(a.ResourceCount))),
 		fmt.Sprintf("%s %s", padKey("Modules"), valStyle.Render(fmt.Sprint(a.ModuleCount))),
