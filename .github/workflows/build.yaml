@@ -35,7 +35,7 @@ jobs:
           version: latest
           args: release --parallelism 2 --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
       - name: Get Debian Package Names
         id: deb_package
