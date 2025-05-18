@@ -98,7 +98,7 @@ PRs are welcome! We follow the typical "fork-and-pull" Git workflow.
 
 ### Many Thanks to Our Contributors
 
-<a href="https://github.com/rosesecurity/terrafetch/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=rosesecurity/terrafetch&max=24" />
+<a href="https://github.com/RoseSecurity/terrafetch/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=RoseSecurity/terrafetch&max=24" />
 </a>
 
