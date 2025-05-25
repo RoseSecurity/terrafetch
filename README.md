@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <em>Let your Terraform code flex for you.</em>
+  <em>Let your IaC flex for you.</em>
 </p>
 
 ## Introduction
