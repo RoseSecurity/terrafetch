@@ -7,14 +7,16 @@ import (
 )
 
 type Analytics struct {
-	VariableCount   int
-	ResourceCount   int
-	OutputCount     int
-	DataSourceCount int
-	ProviderCount   int
-	ModuleCount     int
-	FileCount       int
-	DocCount        int
+	VariableCount          int
+	SensitiveVariableCount int
+	ResourceCount          int
+	OutputCount            int
+	SensitiveOutputCount   int
+	DataSourceCount        int
+	ProviderCount          int
+	ModuleCount            int
+	FileCount              int
+	DocCount               int
 }
 
 func AnalyzeRepository(rootDir string) ([]Analytics, error) {
@@ -27,7 +29,7 @@ func AnalyzeRepository(rootDir string) ([]Analytics, error) {
 		return nil, ErrNoTerraformFiles
 	}
 
-	var totalVars, totalResources, totalOutputs, totalDataSources, totalModules, totalProviders int
+	var totalVars, totalResources, totalOutputs, totalDataSources, totalModules, totalProviders, totalSensitiveVars, totalSensitiveOutputs int
 
 	for dir := range dirs {
 		if !isTerraformDirectory(dir) {
@@ -45,6 +47,18 @@ func AnalyzeRepository(rootDir string) ([]Analytics, error) {
 		totalDataSources += len(repo.DataResources)
 		totalModules += len(repo.ModuleCalls)
 		totalProviders += len(repo.RequiredProviders)
+
+		for _, v := range repo.Variables {
+			if v.Sensitive {
+				totalSensitiveVars++
+			}
+		}
+
+		for _, v := range repo.Outputs {
+			if v.Sensitive {
+				totalSensitiveOutputs++
+			}
+		}
 	}
 
 	totalTfFiles, totalDocFiles, err := utils.FindFiles(rootDir)
@@ -54,14 +68,16 @@ func AnalyzeRepository(rootDir string) ([]Analytics, error) {
 
 	return []Analytics{
 		{
-			VariableCount:   totalVars,
-			ResourceCount:   totalResources,
-			OutputCount:     totalOutputs,
-			DataSourceCount: totalDataSources,
-			ProviderCount:   totalProviders,
-			ModuleCount:     totalModules,
-			FileCount:       totalTfFiles,
-			DocCount:        totalDocFiles,
+			VariableCount:          totalVars,
+			SensitiveVariableCount: totalSensitiveVars,
+			ResourceCount:          totalResources,
+			OutputCount:            totalOutputs,
+			SensitiveOutputCount:   totalSensitiveOutputs,
+			DataSourceCount:        totalDataSources,
+			ProviderCount:          totalProviders,
+			ModuleCount:            totalModules,
+			FileCount:              totalTfFiles,
+			DocCount:               totalDocFiles,
 		},
 	}, nil
 }
