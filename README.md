@@ -39,7 +39,7 @@ curl -1sLf \
 Once the repository is configured, you can install with:
 
 ```sh
-apt install terrafetch=<VERSION>
+apt install terrafetch
 ```
 
 ### Source
