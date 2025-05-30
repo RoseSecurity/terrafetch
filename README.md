@@ -56,6 +56,77 @@ make build
 > Do you love the tool but it's missing some information you'd like to see? Head on over to [this discussion](https://github.com/RoseSecurity/terrafetch/discussions/2) and drop a comment or open a new issue!
 
 ```sh
+ ⨠ terrafetch
+╭─────────────────────────────────────────────────────────────────╮
+│                                    .                            │
+│@#                                  -                            │
+│@@@@@                               Terraform Files:     1315    │
+│@@@@@@@@.                           Documentation:       192     │
+│@@@@@@@@@@ +                   #    Providers:           334     │
+│@@@@@@@@@@ @@@@             @@@@    Module Calls:        748     │
+│@@@@@@@@@@ @@@@@@@.     .@@@@@@@    Resources:           424     │
+│ @@@@@@@@@ @@@@@@@@@@ @@@@@@@@@@    Data Sources:        288     │
+│    +@@@@@ @@@@@@@@@@ @@@@@@@@@@    Variables:           6122    │
+│       .@@ @@@@@@@@@@ @@@@@@@@@@    Sensitive Variables: 16      │
+│           @@@@@@@@@@ @@@@@@@@@@    Outputs:             807     │
+│           @+ -@@@@@@ @@@@@@=       Sensitive Outputs:   22      │
+│           @@@@@ .@@@ @@@.                                       │
+│           @@@@@@@@.                                             │
+│           @@@@@@@@@@                                            │
+│           @@@@@@@@@@                                            │
+│           @@@@@@@@@@                                            │
+│            .@@@@@@@@                                            │
+│                @@@@@                                            │
+│                   %@                                            │
+│                                                                 │
+╰─────────────────────────────────────────────────────────────────╯
+```
+
+## GitHub Action
+
+Give your infrastructure repositories some flair by injecting Terrafetch statistics right into your documentation.
+
+1. Add report markers somewhere in your `README.md` (or any file you point the action at):
+
+```console
+<!-- TER​RAFETCH:START -->
+<!-- TER​RAFETCH:END -->
+```
+
+2. Make sure your repo permissions allow the default `GITHUB_TOKEN` to `contents: write` so the bot can push the updated file.
+
+### Example Workflow
+
+```yaml
+name: Terrafetch
+
+on:
+  schedule:
+    - cron: "0 3 * * *"   # every night at 03:00
+  workflow_dispatch:        # manual trigger when you need it
+
+permissions:
+  contents: write           # let the action push changes
+
+jobs:
+  terrafetch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate README stats with Terrafetch
+        uses: RoseSecurity/terrafetch@v0.2.0
+        with:
+          terraform_directory: infra
+          output_file: README.md      # file with the START/END markers
+          terrafetch_version: 0.2.0   # "latest" also works
+```
+
+3. Enjoy your new and improved documentation (as you can see here)
+
 <!-- TERRAFETCH:START -->
 ╭──────────────────────────────────────────────────────────────╮
 │                                    .                         │
@@ -81,7 +152,6 @@ make build
 │                                                              │
 ╰──────────────────────────────────────────────────────────────╯
 <!-- TERRAFETCH:END -->
-```
 
 ## Contributing
 
