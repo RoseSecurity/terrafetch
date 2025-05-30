@@ -56,30 +56,9 @@ make build
 > Do you love the tool but it's missing some information you'd like to see? Head on over to [this discussion](https://github.com/RoseSecurity/terrafetch/discussions/2) and drop a comment or open a new issue!
 
 ```sh
-❯ terrafetch
-╭─────────────────────────────────────────────────────────────────╮
-│                                    .                            │
-│@#                                  -                            │
-│@@@@@                               Terraform Files:     1315    │
-│@@@@@@@@.                           Documentation:       181     │
-│@@@@@@@@@@ +                   #    Providers:           334     │
-│@@@@@@@@@@ @@@@             @@@@    Module Calls:        748     │
-│@@@@@@@@@@ @@@@@@@.     .@@@@@@@    Resources:           423     │
-│ @@@@@@@@@ @@@@@@@@@@ @@@@@@@@@@    Data Sources:        289     │
-│    +@@@@@ @@@@@@@@@@ @@@@@@@@@@    Variables:           6112    │
-│       .@@ @@@@@@@@@@ @@@@@@@@@@    Sensitive Variables: 16      │
-│           @@@@@@@@@@ @@@@@@@@@@    Outputs:             807     │
-│           @+ -@@@@@@ @@@@@@=       Sensitive Outputs:   22      │
-│           @@@@@ .@@@ @@@.                                       │
-│           @@@@@@@@.                                             │
-│           @@@@@@@@@@                                            │
-│           @@@@@@@@@@                                            │
-│           @@@@@@@@@@                                            │
-│            .@@@@@@@@                                            │
-│                @@@@@                                            │
-│                   %@                                            │
-│                                                                 │
-╰─────────────────────────────────────────────────────────────────╯
+<!-- TERRAFETCH:START -->
+
+<!-- TERRAFETCH:END -->
 ```
 
 ## Contributing
