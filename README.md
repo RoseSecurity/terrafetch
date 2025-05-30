@@ -118,11 +118,11 @@ jobs:
           fetch-depth: 0
 
       - name: Generate README stats with Terrafetch
-        uses: RoseSecurity/terrafetch@v0.2.0
+        uses: RoseSecurity/terrafetch@v0.3.0
         with:
           terraform_directory: infra
           output_file: README.md      # file with the START/END markers
-          terrafetch_version: 0.2.0   # "latest" also works
+          terrafetch_version: 0.3.0   # "latest" also works
 ```
 
 3. Enjoy your new and improved documentation (as you can see here)
