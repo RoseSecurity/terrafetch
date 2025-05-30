@@ -55,9 +55,32 @@ make build
 > [!IMPORTANT]
 > Do you love the tool but it's missing some information you'd like to see? Head on over to [this discussion](https://github.com/RoseSecurity/terrafetch/discussions/2) and drop a comment or open a new issue!
 
-<!-- TERRAFETCH:START -->
-
-<!-- TERRAFETCH:END -->
+```sh
+ ⨠ terrafetch
+╭─────────────────────────────────────────────────────────────────╮
+│                                    .                            │
+│@#                                  -                            │
+│@@@@@                               Terraform Files:     1315    │
+│@@@@@@@@.                           Documentation:       192     │
+│@@@@@@@@@@ +                   #    Providers:           334     │
+│@@@@@@@@@@ @@@@             @@@@    Module Calls:        748     │
+│@@@@@@@@@@ @@@@@@@.     .@@@@@@@    Resources:           424     │
+│ @@@@@@@@@ @@@@@@@@@@ @@@@@@@@@@    Data Sources:        288     │
+│    +@@@@@ @@@@@@@@@@ @@@@@@@@@@    Variables:           6122    │
+│       .@@ @@@@@@@@@@ @@@@@@@@@@    Sensitive Variables: 16      │
+│           @@@@@@@@@@ @@@@@@@@@@    Outputs:             807     │
+│           @+ -@@@@@@ @@@@@@=       Sensitive Outputs:   22      │
+│           @@@@@ .@@@ @@@.                                       │
+│           @@@@@@@@.                                             │
+│           @@@@@@@@@@                                            │
+│           @@@@@@@@@@                                            │
+│           @@@@@@@@@@                                            │
+│            .@@@@@@@@                                            │
+│                @@@@@                                            │
+│                   %@                                            │
+│                                                                 │
+╰─────────────────────────────────────────────────────────────────╯
+```
 
 ## GitHub Action
 
@@ -66,8 +89,8 @@ Give your infrastructure repositories some flair by injecting Terrafetch statist
 1. Add report markers somewhere in your `README.md` (or any file you point the action at):
 
 ```console
-<!-- TERRAFETCH:START -->
-<!-- TERRAFETCH:END -->
+<!-- TER​RAFETCH:START -->
+<!-- TER​RAFETCH:END -->
 ```
 
 2. Make sure your repo permissions allow the default `GITHUB_TOKEN` to c`ontents: write` so the bot can push the updated file.
@@ -101,6 +124,12 @@ jobs:
           output_file: README.md      # file with the START/END markers
           terrafetch_version: 0.2.0   # "latest" also works
 ```
+
+3. Enjoy your new and improved documentation (as you can see here)
+
+<!-- TERRAFETCH:START -->
+
+<!-- TERRAFETCH:END -->
 
 ## Contributing
 
