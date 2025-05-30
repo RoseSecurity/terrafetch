@@ -1,46 +1,36 @@
-name: 'terrafetch'
-description: 'Add flair to your infrastructure repositories with terrafetch. Let your IaC flex for you.'
-author: 'RoseSecurity'
+name: terrafetch
+description: Add flair to your infrastructure repositories with Terrafetch.
+author: RoseSecurity
 
 branding:
-  icon: 'cloud'
-  color: 'purple'
+  icon: cloud
+  color: purple
 
 inputs:
   github_token:
-    description: 'GITHUB_TOKEN'
-    required: true
+    description: GITHUB_TOKEN used for committing README updates
     default: ${{ github.token }}
+    required: true
   output_file:
-    description: |
-      README file to output terrafetch results to. The file should contain the location by marking:
-        <!-- TERRAFETCH:START -->
-        <!-- TERRAFETCH:END -->
-    default: 'README.md'
-    required: false
+    description: README-style file that contains <!-- TERRAFETCH:START / END --> markers
+    default: README.md
   terraform_directory:
-    description: |
-      Directory containing Terraform code for terrafetch to analyze.
-      Default is . (root of the repository)
-    default: '.'
-    required: false
+    description: Directory holding Terraform code to analyze
+    default: .
   terrafetch_version:
-    description: |
-      The version of terrafetch to install.
-      Default is latest.
-    default: 'latest'
-    required: false
+    description: Terrafetch version (e.g. 0.2.0)
+    default: 0.2.0
 
 outputs:
   terrafetch-return-code:
-    description: 'terrafetch command return code'
+    description: Exit code from the terrafetch run
     value: ${{ steps.terrafetch.outputs.terrafetch-return-code }}
 
 runs:
-  using: 'composite'
+  using: composite
   steps:
-    - run: $GITHUB_ACTION_PATH/action.sh
-      id: terrafetch
+    - id: terrafetch
+      run: $GITHUB_ACTION_PATH/action.sh
       shell: bash
       env:
         INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
