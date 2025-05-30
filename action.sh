@@ -30,12 +30,22 @@ echo "::endgroup::"
 # Inject output into README
 outfile="$INPUT_OUTPUT_FILE"
 tmp=$(mktemp)
-awk -v block="$TERRAFETCH_OUTPUT" '
-  BEGIN         {inside=0}
-  /<!-- TERRAFETCH:START -->/ {print; print block; inside=1; next}
-  /<!-- TERRAFETCH:END -->/   {inside=0}
-  !inside        {print}
+
+block_md=$(printf '%s\n' \
+  '<details><summary>Terrafetch</summary>' \
+  '' \
+  '```console' \
+  "$TERRAFETCH_OUTPUT" \
+  '```' \
+  '</details>')
+
+awk -v block="$block_md" '
+  BEGIN                          {inside = 0}
+  /<!-- TERRAFETCH:START -->/    {print; print block; inside = 1; next}
+  /<!-- TERRAFETCH:END -->/      {inside = 0}
+  !inside                        {print}
 ' "$outfile" >"$tmp"
+
 mv "$tmp" "$outfile"
 
 # Commit when file changes
