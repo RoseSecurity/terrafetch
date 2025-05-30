@@ -18,8 +18,8 @@ inputs:
     description: Directory holding Terraform code to analyze
     default: .
   terrafetch_version:
-    description: Terrafetch version (e.g. 0.2.0)
-    default: 0.2.0
+    description: Terrafetch version (e.g. 0.2.0 or "latest")
+    default: latest
 
 outputs:
   terrafetch-return-code:
