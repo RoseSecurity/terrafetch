@@ -1,0 +1,17 @@
+name: Terrafetch
+
+on:
+  schedule:
+    - cron: '* 8 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  terrafetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: RoseSecurity/terrafetch@main
+        id: terrafetch
