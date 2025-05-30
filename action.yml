@@ -1,0 +1,49 @@
+name: 'terrafetch'
+description: 'Add flair to your infrastructure repositories with terrafetch. Let your IaC flex for you.'
+author: 'RoseSecurity'
+
+branding:
+  icon: 'cloud'
+  color: 'purple'
+
+inputs:
+  github_token:
+    description: 'GITHUB_TOKEN'
+    required: true
+    default: ${{ github.token }}
+  output_file:
+    description: |
+      README file to output terrafetch results to. The file should contain the location by marking:
+        <!-- TERRAFETCH:START -->
+        <!-- TERRAFETCH:END -->
+    default: 'README.md'
+    required: false
+  terraform_directory:
+    description: |
+      Directory containing Terraform code for terrafetch to analyze.
+      Default is . (root of the repository)
+    default: '.'
+    required: false
+  terrafetch_version:
+    description: |
+      The version of terrafetch to install.
+      Default is latest.
+    default: 'latest'
+    required: false
+
+outputs:
+  terrafetch-return-code:
+    description: 'terrafetch command return code'
+    value: ${{ steps.terrafetch.outputs.terrafetch-return-code }}
+
+runs:
+  using: 'composite'
+  steps:
+    - run: $GITHUB_ACTION_PATH/action.sh
+      id: terrafetch
+      shell: bash
+      env:
+        INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
+        INPUT_OUTPUT_FILE: ${{ inputs.output_file }}
+        INPUT_TERRAFORM_DIRECTORY: ${{ inputs.terraform_directory }}
+        INPUT_TERRAFETCH_VERSION: ${{ inputs.terrafetch_version }}
