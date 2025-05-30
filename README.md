@@ -93,7 +93,7 @@ Give your infrastructure repositories some flair by injecting Terrafetch statist
 <!-- TER​RAFETCH:END -->
 ```
 
-2. Make sure your repo permissions allow the default `GITHUB_TOKEN` to c`ontents: write` so the bot can push the updated file.
+2. Make sure your repo permissions allow the default `GITHUB_TOKEN` to `contents: write` so the bot can push the updated file.
 
 ### Example Workflow
 
