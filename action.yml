@@ -14,6 +14,9 @@ inputs:
   output_file:
     description: README-style file that contains <!-- TERRAFETCH:START / END --> markers
     default: README.md
+  collapse_output:
+    description: Set to **true** to fold Terrafetch output into a `<details>` block; **false** shows the full log
+    default: "true"
   terraform_directory:
     description: Directory holding Terraform code to analyze
     default: .
@@ -35,5 +38,6 @@ runs:
       env:
         INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
         INPUT_OUTPUT_FILE: ${{ inputs.output_file }}
+        INPUT_COLLAPSE_OUTPUT: ${{ inputs.collapse_output }}
         INPUT_TERRAFORM_DIRECTORY: ${{ inputs.terraform_directory }}
         INPUT_TERRAFETCH_VERSION: ${{ inputs.terrafetch_version }}

@@ -31,13 +31,22 @@ echo "::endgroup::"
 outfile="$INPUT_OUTPUT_FILE"
 tmp=$(mktemp)
 
-block_md=$(printf '%s\n' \
-  '<details><summary>Terrafetch</summary>' \
-  '' \
-  '```console' \
-  "$TERRAFETCH_OUTPUT" \
-  '```' \
-  '</details>')
+# Ensure the input is lowercase
+COLLAPSE=$(printf '%s' "$INPUT_COLLAPSE_OUTPUT" | tr '[:upper:]' '[:lower:]')
+if [[ "$COLLAPSE" = true ]]; then
+  block_md=$(printf '%s\n' \
+    '<details><summary>Terrafetch</summary>' \
+    '' \
+    '```console' \
+    "$TERRAFETCH_OUTPUT" \
+    '```' \
+    '</details>')
+else
+  block_md=$(printf '%s\n' \
+    '```console' \
+    "$TERRAFETCH_OUTPUT" \
+    '```')
+fi
 
 awk -v block="$block_md" '
   BEGIN                          {inside = 0}
