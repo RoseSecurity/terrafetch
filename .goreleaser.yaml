@@ -1,5 +1,4 @@
 # Make sure to check the documentation at https://goreleaser.com
-
 version: 2
 
 before:
@@ -9,8 +8,11 @@ before:
 builds:
   - env:
       - CGO_ENABLED=0
+    mod_timestamp: '{{ .CommitTimestamp }}'
+    binary: terrafetch
     goos:
       - linux
+      - freebsd
       - windows
       - darwin
 
@@ -39,6 +41,8 @@ archives:
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
+  - format: binary
+    name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
     format_overrides:
       - goos: windows
         format: zip
