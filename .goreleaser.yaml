@@ -8,8 +8,6 @@ before:
 builds:
   - env:
       - CGO_ENABLED=0
-    mod_timestamp: '{{ .CommitTimestamp }}'
-    binary: terrafetch
     goos:
       - linux
       - freebsd
@@ -33,7 +31,9 @@ nfpms:
     license: Apache 2.0
 
 archives:
-  - format: tar.gz
+  - id: tar
+    formats:
+      - tar.gz
     name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
@@ -41,11 +41,13 @@ archives:
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
-  - format: binary
+  - id: binary
+    formats:
+      - binary
     name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
     format_overrides:
       - goos: windows
-        format: zip
+        formats: [zip]
 
 changelog:
   sort: asc
