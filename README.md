@@ -1,6 +1,5 @@
-<p align="center">
-<img width=100% height=90% src="./docs/img/terrafetch-logo.png">
-</p>
+
+<img width="1101" height="377" alt="terrafetch-logo" src="https://github.com/user-attachments/assets/cc082f82-2486-43ee-83b0-750816d01d15" />
 
 <p align="center">
   <em>Let your IaC flex for you.</em>
@@ -12,9 +11,7 @@ Terrafetch is the Neofetch of Terraform—because your infrastructure deserves a
 
 ## Demo
 
-<p align="center">
-<img width=100% height=100% src="./docs/img/terrafetch-demo.gif">
-</p>
+![terrafetch-demo](https://github.com/user-attachments/assets/ae3c34d2-db4b-430f-830e-44b0601f091a)
 
 ## Installation
 
