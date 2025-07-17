@@ -17,16 +17,28 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
-      - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
+
+      - name: Setup Go
+        uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
         with:
           go-version-file: "go.mod"
           cache: false
-      - run: |
+
+      - name: Build and test Terrafetch
+        run: |
+          echo "Building Terrafetch..."
           make build
+
+          echo "Running Terrafetch..."
           build/terrafetch > output.txt
+
           # Validate that expected elements are present
+          echo "Validating output..."
           grep -q "Terraform Files:" output.txt || { echo "Missing Terraform Files count"; exit 1; }
           grep -q "Resources:" output.txt || { echo "Missing Resources count"; exit 1; }
           grep -q "Variables:" output.txt || { echo "Missing Variables count"; exit 1; }
