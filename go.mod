@@ -6,7 +6,7 @@ require (
 	github.com/charmbracelet/bubbletea v1.3.6
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/charmbracelet/log v0.4.2
-	github.com/hashicorp/terraform-config-inspect v0.0.0-20250515145901-f4c50e64fd6d
+	github.com/hashicorp/terraform-config-inspect v0.0.0-20250731202709-e8a84eebd3e7
 	github.com/mattn/go-runewidth v0.0.16
 	github.com/spf13/cobra v1.9.1
 )
