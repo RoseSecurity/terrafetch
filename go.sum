@@ -44,6 +44,8 @@ github.com/hashicorp/terraform-config-inspect v0.0.0-20250815164439-e06743db9cd8
 github.com/hashicorp/terraform-config-inspect v0.0.0-20250815164439-e06743db9cd8/go.mod h1:Gz/z9Hbn+4KSp8A2FBtNszfLSdT2Tn/uAKGuVqqWmDI=
 github.com/hashicorp/terraform-config-inspect v0.0.0-20250822072239-d9a8f4395430 h1:0m8+HFw2xV7ga/CWq5ZHsMoBm6rrJKTkNATNm9HaarQ=
 github.com/hashicorp/terraform-config-inspect v0.0.0-20250822072239-d9a8f4395430/go.mod h1:Gz/z9Hbn+4KSp8A2FBtNszfLSdT2Tn/uAKGuVqqWmDI=
+github.com/hashicorp/terraform-config-inspect v0.0.0-20250828155816-225c06ed5fd9 h1:1MLunZqjVd9j5gc5kjE04VEoieDVdWdgdM6T2fNQvY8=
+github.com/hashicorp/terraform-config-inspect v0.0.0-20250828155816-225c06ed5fd9/go.mod h1:Gz/z9Hbn+4KSp8A2FBtNszfLSdT2Tn/uAKGuVqqWmDI=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/lucasb-eyer/go-colorful v1.2.0 h1:1nnpGOrhyZZuNyfu1QjKiUICQ74+3FNCN69Aj6K7nkY=
