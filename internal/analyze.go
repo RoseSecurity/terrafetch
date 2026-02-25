@@ -1,6 +1,9 @@
 package internal
 
 import (
+	"runtime"
+	"sync"
+
 	"github.com/RoseSecurity/terrafetch/pkg/utils"
 	log "github.com/charmbracelet/log"
 	"github.com/hashicorp/terraform-config-inspect/tfconfig"
@@ -20,66 +23,84 @@ type Analytics struct {
 }
 
 func AnalyzeRepository(rootDir string) ([]Analytics, error) {
-	dirs, err := utils.FindTFDirs(rootDir)
+	scan, err := utils.ScanRepository(rootDir)
 	if err != nil {
 		return nil, ErrFailedToFindDir
 	}
 
-	if len(dirs) == 0 {
+	if len(scan.TFDirs) == 0 {
 		return nil, ErrNoTerraformFiles
 	}
 
-	var totalVars, totalResources, totalOutputs, totalDataSources, totalModules, totalProviders, totalSensitiveVars, totalSensitiveOutputs int
+	// Parallelize module analysis with a worker pool
+	var wg sync.WaitGroup
+	results := make(chan Analytics, len(scan.TFDirs))
+	sem := make(chan struct{}, runtime.NumCPU())
 
-	for dir := range dirs {
-		if !isTerraformDirectory(dir) {
-			continue
-		}
+	for dir := range scan.TFDirs {
+		wg.Add(1)
+		go func(d string) {
+			defer wg.Done()
+			sem <- struct{}{}
+			defer func() { <-sem }()
 
-		repo, diags := tfconfig.LoadModule(dir)
-		if diags.HasErrors() {
-			log.Warn("could not load %v", dir)
-		}
-
-		totalVars += len(repo.Variables)
-		totalOutputs += len(repo.Outputs)
-		totalResources += len(repo.ManagedResources)
-		totalDataSources += len(repo.DataResources)
-		totalModules += len(repo.ModuleCalls)
-		totalProviders += len(repo.RequiredProviders)
-
-		for _, v := range repo.Variables {
-			if v.Sensitive {
-				totalSensitiveVars++
+			if !isTerraformDirectory(d) {
+				return
 			}
-		}
 
-		for _, v := range repo.Outputs {
-			if v.Sensitive {
-				totalSensitiveOutputs++
+			repo, diags := tfconfig.LoadModule(d)
+			if diags.HasErrors() {
+				log.Warn("could not load %v", d)
+				return
 			}
-		}
+
+			var a Analytics
+			a.VariableCount = len(repo.Variables)
+			a.OutputCount = len(repo.Outputs)
+			a.ResourceCount = len(repo.ManagedResources)
+			a.DataSourceCount = len(repo.DataResources)
+			a.ModuleCount = len(repo.ModuleCalls)
+			a.ProviderCount = len(repo.RequiredProviders)
+
+			for _, v := range repo.Variables {
+				if v.Sensitive {
+					a.SensitiveVariableCount++
+				}
+			}
+
+			for _, v := range repo.Outputs {
+				if v.Sensitive {
+					a.SensitiveOutputCount++
+				}
+			}
+
+			results <- a
+		}(dir)
 	}
 
-	totalTfFiles, totalDocFiles, err := utils.FindFiles(rootDir)
-	if err != nil {
-		log.Error("could not count terraform files %v", err)
+	// Close results channel after all workers finish
+	go func() {
+		wg.Wait()
+		close(results)
+	}()
+
+	// Aggregate results from all workers
+	var total Analytics
+	for a := range results {
+		total.VariableCount += a.VariableCount
+		total.SensitiveVariableCount += a.SensitiveVariableCount
+		total.ResourceCount += a.ResourceCount
+		total.OutputCount += a.OutputCount
+		total.SensitiveOutputCount += a.SensitiveOutputCount
+		total.DataSourceCount += a.DataSourceCount
+		total.ProviderCount += a.ProviderCount
+		total.ModuleCount += a.ModuleCount
 	}
 
-	return []Analytics{
-		{
-			VariableCount:          totalVars,
-			SensitiveVariableCount: totalSensitiveVars,
-			ResourceCount:          totalResources,
-			OutputCount:            totalOutputs,
-			SensitiveOutputCount:   totalSensitiveOutputs,
-			DataSourceCount:        totalDataSources,
-			ProviderCount:          totalProviders,
-			ModuleCount:            totalModules,
-			FileCount:              totalTfFiles,
-			DocCount:               totalDocFiles,
-		},
-	}, nil
+	total.FileCount = scan.TFCount
+	total.DocCount = scan.DocCount
+
+	return []Analytics{total}, nil
 }
 
 // isTerraformDirectory returns if a directory contains Terraform code
