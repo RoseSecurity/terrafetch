@@ -3,7 +3,7 @@ module github.com/RoseSecurity/terrafetch
 go 1.24.3
 
 require (
-	github.com/charmbracelet/bubbletea v1.3.10
+	github.com/charmbracelet/bubbletea/v2 v2.0.0
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/charmbracelet/log v0.4.2
 	github.com/hashicorp/terraform-config-inspect v0.0.0-20260224005459-813a97530220
