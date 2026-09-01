@@ -1,0 +1,6 @@
+- id: terrafetch
+  name: Terrafetch
+  description: Let your IaC flex for you.
+  entry: terrafetch
+  language: golang
+  pass_filenames: false
