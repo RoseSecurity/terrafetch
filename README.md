@@ -79,6 +79,17 @@ make build
 ╰─────────────────────────────────────────────────────────────────╯
 ```
 
+## Pre-Commit Hooks
+
+Flex your IaC on every commit.
+
+```yaml
+  - repo: https://github.com/RoseSecurity/terrafetch
+    rev: v0.6.0
+    hooks:
+      - id: terrafetch
+```
+
 ## GitHub Action
 
 Give your infrastructure repositories some flair by injecting Terrafetch statistics right into your documentation.
