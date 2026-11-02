@@ -10,19 +10,21 @@ import (
 
 // ScanResult holds the results of a single filesystem walk.
 type ScanResult struct {
-	TFDirs  map[string]struct{}
-	TFCount int
+	TFDirs   map[string]struct{}
+	TFCount  int
 	DocCount int
 }
 
 // skipDirs contains directories that should never be descended into.
 var skipDirs = map[string]bool{
-	".terraform":       true,
+	".terraform":        true,
 	".terragrunt-cache": true,
-	".git":             true,
-	"vendor":           true,
-	"test":             true,
-	"node_modules":     true,
+	".git":              true,
+	".github":           true,
+	".gitlab":           true,
+	"vendor":            true,
+	"test":              true,
+	"node_modules":      true,
 }
 
 // ScanRepository walks the directory tree once, collecting Terraform module
