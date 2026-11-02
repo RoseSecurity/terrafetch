@@ -1,3 +1,4 @@
+// Package cmd provides the interface for the CLI.
 package cmd
 
 import (
@@ -9,13 +10,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var directory string
+var (
+	directory string
+	// Version is dynamically injected during the build process.
+	Version = "0.1.0"
+)
 
 var rootCmd = &cobra.Command{
 	Use:          "terrafetch",
 	Short:        "The Neofetch of Terraform",
 	Long:         `Turning infrastructure repository statistics into stylish terminal outputs since 2025.`,
 	RunE:         fetchInfo,
+	Version:      Version,
 	SilenceUsage: true,
 }
 
